@@ -1,0 +1,45 @@
+.sudoku-grid {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border-width: 1px 0px 0px 1px;
+    border-color: black;
+    border-style: solid;
+    display: block;
+    flex: 0 0 auto;
+    padding: 0px;
+}
+
+.column-0, .column-3, .column-6 {
+    border-left: 3px solid black;
+}
+
+.column-8 {
+    border-right: 3px solid black;
+}
+
+.row-0, .row-3, .row-6 {
+    border-top: 3px solid black;
+}
+
+.row-8 {
+    border-bottom: 3px solid black;
+}
+
+span {
+    display: block;
+    font: 42px Arial, sans-serif;
+    text-align: center;
+    margin: 0px;
+    height: 44px;
+    position: relative;
+}

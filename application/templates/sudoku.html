@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sudoku.css') }}">
+<div class="sudoku-grid">
+    {% for row in range(0, 9) %}
+    <div class="row row-{{ row }}}">
+        {% for col in range(0, 9) %}
+        <div class="column-{{ col }} row-{{ row }} cell"><span>{{ numbers[row][col]}}</span></div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

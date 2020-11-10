@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+<div id="navbar">
+    <div id="logoText">
+        <h1>Sudoku App</h1>
+    </div>
+    {% if session.username %}
+        <div id="loginInformation">
+            <div id="loginText">Logged in as {{ session.username }}</div>
+            <a id="logoutButton" href="/logout">
+                <div>Logout</div>
+            </a>
+        </div>
+    {% else %}
+        <div id="accountButtons">
+            <div id="loginButton" onClick="toggleDropdown('login')">
+                Login
+            </div>
+            <div id="signupButton" onClick="toggleDropdown('signup')">
+                Sign up
+            </div>
+        </div>
+        <div id="loginDropdown">
+            <form action="/login" method="POST">
+                <p>Username:<br>
+                <input type="text" name="username"></p>
+                <p>Password:<br>
+                <input type="password" name="password"></p>
+                <input type="submit" value="Log in">
+            </form>
+        </div>
+        <div id="signupDropdown">
+            <form action="/signup" method="POST">
+                <p>Display name:<br>
+                <input type="text" name="display"></p>
+                <p>Username:<br>
+                <input type="text" name="username"></p>
+                <p>Password:<br>
+                <input type="password" name="password"></p>
+                <p>Confirm password:<br>
+                <input type="password" name="confirm"></p>
+                <input type="submit" value="Create account">
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    var toggleDropdown = (name) => {
+        let dropdown = document.getElementById(name + "Dropdown");
+        let button = document.getElementById(name + "Button");
+
+        if (dropdown.style.visibility != "visible") {
+            dropdown.style.visibility = "visible";
+            button.style.backgroundColor = "#0099FF";
+        } else {
+            dropdown.style.visibility = "hidden";
+            button.style.backgroundColor = "#343434";
+        }
+    }
+</script>

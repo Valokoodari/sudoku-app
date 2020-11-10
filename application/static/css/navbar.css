@@ -1,0 +1,89 @@
+#navbar {
+    width: 100%;
+    height: 50px;
+    background-color: #343434;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    color: #FEFEFE;
+    font: 13px Arial, sans-serif;
+}
+
+#logoText {
+    margin-top: -16px;
+    padding: 0px 8px 8px 16px;
+    height: 50px;
+    font-size: 16px
+}
+
+#accountButtons {
+    display: flex;
+    position: fixed;
+    right: 0;
+}
+
+#loginButton, #signupButton {
+    padding-top: 10px;
+    width: 90px;
+    height: 40px;
+    font: 24px Arial, sans-serif;
+    text-align: center;
+}
+
+#signupButton {
+    width: 120px;
+}
+
+#loginButton:hover, #signupButton:hover {
+    background-color: #0099FF;
+}
+
+#loginDropdown {
+    visibility: hidden;
+    padding: 0px 12px 12px 12px;
+    position: fixed;
+    right: 0;
+    top: 50px;
+    background-color: #343434;
+    border: 4px solid #0099FF;
+}
+
+#signupDropdown {
+    visibility: hidden;
+    padding: 0px 12px 12px 12px;
+    position: fixed;
+    right: 0;
+    top: 50px;
+    background-color: #343434;
+    border: 4px solid #0099FF;
+}
+
+
+#loginInformation {
+    position: fixed;
+    display: flex;
+    right: 0;
+    top: 0;
+    height: 50px;
+    font: 26px Arial, sans-serif;
+}
+
+#loginText {
+    padding: 8px 16px 0px 0px;
+}
+
+#logoutButton, #logoutButton:link {
+    color: #FEFEFE;
+    padding-top: 10px;
+    width: 100px;
+    height: 40px;
+    font: 24px Arial, sans-serif;
+    text-align: center;
+    text-decoration: none;
+}
+
+#logoutButton:hover {
+    background-color: #0099FF;
+}
