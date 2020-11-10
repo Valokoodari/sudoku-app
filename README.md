@@ -7,9 +7,9 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 ### Ominaisuudet:
 - [x] Käyttäjätunnuksen luominen
 - [x] Kirjautuminen olemassa olevalle tunnukselle
-- [ ] Uuden sudokun luominen (sudoku ja mahdolliset lisäohjeet)
+- [x] Uuden sudokun luominen (sudoku ja mahdolliset lisäohjeet)
 - [ ] Sudokun jakaminen toiselle käyttäjälle
-- [ ] Sudokun merkitseminen julkiseksi
+- [ ] Sudokun merkitseminen julkiseksi jälkikäteen
 - [x] Sudokun jakaminen linkillä
 - [ ] Sudokun ratkaiseminen
 - [ ] Sudokun ratkaisemiseen kuluneen ajan tallentaminen

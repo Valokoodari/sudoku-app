@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create.css') }}">
+    <div id="creator">
+        <h1>Sudoku creator</h1>
+        <form action="/new" method="POST">
+            <p>Sudoku name:<br>
+            <input type="text" maxlength="32" name="name"></p>
+            {% for row in range(0, 9) %}
+                {% for col in range(0, 9) %}
+                    <input type="text" maxlength="1" name="cell{{ row }}{{ col }}" style="width: 15px" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                {% endfor %}
+                <br>
+            {% endfor %}
+            <p>Instructions:<br>
+            <textarea name="instructions" rows="4" cols="43"></textarea></p>
+            <p><input name="public" type="checkbox">Public</p>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}

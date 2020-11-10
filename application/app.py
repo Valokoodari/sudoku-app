@@ -20,6 +20,32 @@ def sudoku(id):
     cells = result.fetchall()[id][0]
     return render_template("sudoku.html", numbers=cells)
 
+@app.route("/create")
+def create():
+    return render_template("create.html")
+
+@app.route("/new", methods=["POST"])
+def new():
+    name = request.form["name"]
+    cells = [];
+    for row in range(0, 9):
+        cells.append([]);
+        for col in range(0, 9):
+            cells[row].append(request.form["cell"+str(row)+str(col)])
+    instructions = request.form["instructions"]
+    if ("public" in request.form):
+        display = 3
+    else:
+        display = 1
+
+    sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (0, :name, :cells, :instructions, :display)"
+    db.session.execute(sql, {"name":name, "cells":cells, "instructions":instructions, "display":display})
+    db.session.commit()
+
+    result = db.session.execute("SELECT COUNT(*) FROM sudokus")
+
+    return redirect("/sudoku/" + str(result.fetchone()[0]-1))
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
