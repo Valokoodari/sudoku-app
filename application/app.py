@@ -19,6 +19,7 @@ def sudoku(id):
     result = db.session.execute("SELECT cells FROM sudokus")
     cells = result.fetchall()[id][0]
     return render_template("sudoku.html", numbers=cells)
+    # TODO - 404 if sudoku with given id doesn't exist
 
 @app.route("/create")
 def create():
@@ -38,6 +39,7 @@ def new():
     else:
         display = 1
 
+    # TODO - Add actual creator id and only allow access to creator for registered users
     sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (0, :name, :cells, :instructions, :display)"
     db.session.execute(sql, {"name":name, "cells":cells, "instructions":instructions, "display":display})
     db.session.commit()
@@ -45,13 +47,14 @@ def new():
     result = db.session.execute("SELECT COUNT(*) FROM sudokus")
 
     return redirect("/sudoku/" + str(result.fetchone()[0]-1))
+    # TODO - error handling
 
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    sql = "SELECT password_hash FROM users WHERE username=:username"
+    sql = "SELECT id, password_hash, display_name FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
 
@@ -59,9 +62,10 @@ def login():
         print("Invalid Username!")
         # TODO - invalid username
     else:
-        password_hash = user[0]
+        password_hash = user[1]
         if check_password_hash(password_hash, password):
-            session["username"] = username
+            session["user_id"] = user[0]
+            session["display_name"] = user[2]
         else:
             print("Invalid Password!")
             # TODO - invalid password
@@ -70,7 +74,8 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["username"]
+    del session["user_id"]
+    del session["display_name"]
     return redirect("/")
 
 @app.route("/signup", methods=["POST"])
@@ -88,7 +93,13 @@ def signup():
         sql = "INSERT INTO users (username, password_hash, display_name, permission_level) VALUES (:username,:password_hash,:display_name,0)"
         db.session.execute(sql, {"username":username, "password_hash":password_hash, "display_name":display})
         db.session.commit()
-        session["username"] = username
+
+        sql = "SELECT id, display_name FROM users WHERE username=:username"
+        result = db.session.execute(sql, {"username":username})
+        user = result.fetchone();
+        print(user);
+        
+        session["user_id"] = user[0];
+        session["display_name"] = user[1];
         
     return redirect("/")
-

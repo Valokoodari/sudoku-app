@@ -3,9 +3,9 @@
     <div id="logoText">
         <h1><a id="home" href="/">Sudoku App</a></h1>
     </div>
-    {% if session.username %}
+    {% if session.user_id %}
         <div id="loginInformation">
-            <div id="loginText">Logged in as {{ session.username }}</div>
+            <div id="loginText">Logged in as {{ session.display_name }}</div>
             <a id="logoutButton" href="/logout">
                 <div>Logout</div>
             </a>
