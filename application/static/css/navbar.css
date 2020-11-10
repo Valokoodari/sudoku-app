@@ -15,7 +15,12 @@
     margin-top: -16px;
     padding: 0px 8px 8px 16px;
     height: 50px;
-    font-size: 16px
+    font-size: 16px;
+}
+
+#home {
+    text-decoration: none;
+    color: #FEFEFE;
 }
 
 #accountButtons {
