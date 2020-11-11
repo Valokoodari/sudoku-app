@@ -39,9 +39,8 @@ def new():
     else:
         display = 1
 
-    # TODO - Add actual creator id and only allow access to creator for registered users
-    sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (0, :name, :cells, :instructions, :display)"
-    db.session.execute(sql, {"name":name, "cells":cells, "instructions":instructions, "display":display})
+    sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (:user_id, :name, :cells, :instructions, :display)"
+    db.session.execute(sql, {"user_id":session["user_id"], "name":name, "cells":cells, "instructions":instructions, "display":display})
     db.session.commit()
 
     result = db.session.execute("SELECT COUNT(*) FROM sudokus")
