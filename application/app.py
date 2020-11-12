@@ -27,6 +27,10 @@ def create():
 
 @app.route("/new", methods=["POST"])
 def new():
+    if "user_id" not in session:
+        print("User id not found!")
+        # TODO - Not logged in ERROR
+
     name = request.form["name"]
     cells = [];
     for row in range(0, 9):
