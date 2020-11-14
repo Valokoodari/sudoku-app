@@ -94,16 +94,16 @@ def login():
     user = result.fetchone()
 
     if (user == None):
-        print("Invalid Username!")
-        # TODO - invalid username
+        return render_template("error.html", \
+               error="Invalid username or password!")
     else:
         password_hash = user[1]
         if check_password_hash(password_hash, password):
             session["user_id"] = user[0]
             session["display_name"] = user[2]
         else:
-            print("Invalid Password!")
-            # TODO - invalid password
+            return render_template("error.html", \
+                   error="Invalid username or password!")
 
     return redirect("/")
 
