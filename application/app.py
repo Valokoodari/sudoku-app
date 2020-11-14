@@ -121,22 +121,29 @@ def signup():
     confirm = request.form["confirm"]
     password_hash = generate_password_hash(password)
 
+    # Check if the passwords do not match
     if (password != confirm):
-        print("TODO");
-        # TODO - Passwords do not match
-    else:
-        sql = "INSERT INTO users (username, password_hash, display_name, permission_level) " \
-              "VALUES (:username,:password_hash,:display_name,0)"
-        db.session.execute(sql, {"username":username, \
-                   "password_hash":password_hash, "display_name":display})
-        db.session.commit()
+        return render_template("error.html", error="The passwords do not match!")
 
-        sql = "SELECT id, display_name FROM users WHERE username=:username"
-        result = db.session.execute(sql, {"username":username})
-        user = result.fetchone();
-        print(user);
-        
-        session["user_id"] = user[0];
-        session["display_name"] = user[1];
+    # Check if the username is already taken
+    sql ="SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    if (result.fetchone() != "None"):
+        return render_template("error.html", \
+               error="An account with given username already exits.")
+
+    # Create the new account
+    sql = "INSERT INTO users (username, password_hash, display_name, permission_level) " \
+          "VALUES (:username,:password_hash,:display_name,0)"
+    db.session.execute(sql, {"username":username, \
+               "password_hash":password_hash, "display_name":display})
+    db.session.commit()
+
+    sql = "SELECT id, display_name FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone();
+
+    session["user_id"] = user[0]
+    session["display_name"] = user[1]
         
     return redirect("/")
