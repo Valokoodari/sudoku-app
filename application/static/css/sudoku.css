@@ -1,5 +1,9 @@
-.sudoku-grid {
+.content {
     margin-top: 60px;
+    font: 16px Arial, sans-serif;
+}
+
+.sudoku-grid {
     display: flex;
     flex-direction: column;
 }
@@ -42,4 +46,9 @@ span {
     margin: 0px;
     height: 44px;
     position: relative;
+}
+
+.rules {
+    width: 466px;
+    text-align: justify;
 }
