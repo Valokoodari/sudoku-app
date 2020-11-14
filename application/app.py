@@ -30,6 +30,9 @@ def sudoku(id):
     display = sudoku[3]
     owner_id = sudoku[4]
     shared_to = sudoku[5]
+    if (shared_to == None):
+        shared_to = []
+
     if display == 3 or display == 2: # Public sudoku, display to anyone
         return render_template("sudoku.html", name=sudoku[0], \
                cells=sudoku[1], rules=sudoku[2])
