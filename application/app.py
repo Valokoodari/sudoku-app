@@ -16,20 +16,30 @@ def index():
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
-    result = db.session.execute("SELECT cells FROM sudokus")
-    cells = result.fetchall()[id][0]
-    return render_template("sudoku.html", numbers=cells)
-    # TODO - 404 if sudoku with given id doesn't exist
+    sql = "SELECT name,cells,instructions FROM sudokus WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    sudoku = result.fetchone();
+
+    # Redirect to the error page if the sudoku doesn't exist
+    if sudoku == None:
+        return render_template("error.html", error="A sudoku with the given id doesn't exits.")
+
+    return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
+    # TODO - Check permissions
 
 @app.route("/create")
 def create():
+    # The user must be logged in to create a sudoku
+    if "user_id" not in session:
+        return render_template("error.html", error="You must be logged in!");
+
     return render_template("create.html")
 
 @app.route("/new", methods=["POST"])
 def new():
+    # The user must be logged in to submit a new sudoku
     if "user_id" not in session:
-        print("User id not found!")
-        # TODO - Not logged in ERROR
+        return render_template("error.html", error="You must be logged in!");
 
     name = request.form["name"]
     cells = [];
@@ -49,7 +59,7 @@ def new():
 
     result = db.session.execute("SELECT COUNT(*) FROM sudokus")
 
-    return redirect("/sudoku/" + str(result.fetchone()[0]-1))
+    return redirect("/sudoku/" + str(result.fetchone()[0]))
     # TODO - error handling
 
 @app.route("/login", methods=["POST"])

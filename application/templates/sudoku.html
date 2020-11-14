@@ -5,7 +5,7 @@
     {% for row in range(0, 9) %}
     <div class="row row-{{ row }}}">
         {% for col in range(0, 9) %}
-        <div class="column-{{ col }} row-{{ row }} cell"><span>{{ numbers[row][col]}}</span></div>
+        <div class="column-{{ col }} row-{{ row }} cell"><span>{{ cells[row][col]}}</span></div>
         {% endfor %}
     </div>
     {% endfor %}
