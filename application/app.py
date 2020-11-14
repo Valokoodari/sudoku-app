@@ -16,16 +16,29 @@ def index():
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
-    sql = "SELECT name,cells,instructions FROM sudokus WHERE id=:id"
+    sql = "SELECT name,cells,instructions,display,owner_id,user_ids FROM sudokus WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     sudoku = result.fetchone();
 
     # Redirect to the error page if the sudoku doesn't exist
     if sudoku == None:
         return render_template("error.html", error="A sudoku with the given id doesn't exits.")
+    
+    # Check the permissions
+    display = sudoku[3]
+    owner_id = sudoku[4]
+    shared_to = sudoku[5]
+    if display == 3 or display == 2: # Public sudoku, display to anyone
+        return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
+    elif display == 1 and "user_id" in session:
+        user_id = session["user_id"]
+        if user_id == owner_id or user_id in shared_to:
+            return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
 
-    return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
-    # TODO - Check permissions
+    # The user doesn't have the permission to view the sudoku
+    return render_template("error.html", error="You don't have the permissions to view that sudoku!")
+
+
 
 @app.route("/create")
 def create():
@@ -49,9 +62,10 @@ def new():
             cells[row].append(request.form["cell"+str(row)+str(col)])
     instructions = request.form["instructions"]
     if ("public" in request.form):
-        display = 3
+        display = 3 # public
     else:
-        display = 1
+        display = 1 # private
+    # 0 "deleted", 2 anyone with the link
 
     sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (:user_id, :name, :cells, :instructions, :display)"
     db.session.execute(sql, {"user_id":session["user_id"], "name":name, "cells":cells, "instructions":instructions, "display":display})
