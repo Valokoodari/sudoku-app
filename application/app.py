@@ -16,27 +16,32 @@ def index():
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
-    sql = "SELECT name,cells,instructions,display,owner_id,user_ids FROM sudokus WHERE id=:id"
+    sql = "SELECT name,cells,instructions,display,owner_id,user_ids " \
+          "FROM sudokus WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     sudoku = result.fetchone();
 
     # Redirect to the error page if the sudoku doesn't exist
     if sudoku == None:
-        return render_template("error.html", error="A sudoku with the given id doesn't exits.")
+        return render_template("error.html", \
+               error="A sudoku with the given id doesn't exits.")
     
     # Check the permissions
     display = sudoku[3]
     owner_id = sudoku[4]
     shared_to = sudoku[5]
     if display == 3 or display == 2: # Public sudoku, display to anyone
-        return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
+        return render_template("sudoku.html", name=sudoku[0], \
+               cells=sudoku[1], rules=sudoku[2])
     elif display == 1 and "user_id" in session:
         user_id = session["user_id"]
         if user_id == owner_id or user_id in shared_to:
-            return render_template("sudoku.html", name=sudoku[0], cells=sudoku[1], rules=sudoku[2])
+            return render_template("sudoku.html", name=sudoku[0], \
+                   cells=sudoku[1], rules=sudoku[2])
 
     # The user doesn't have the permission to view the sudoku
-    return render_template("error.html", error="You don't have the permissions to view that sudoku!")
+    return render_template("error.html", \
+           error="You don't have the permissions to view that sudoku!")
 
 
 
@@ -67,8 +72,10 @@ def new():
         display = 1 # private
     # 0 "deleted", 2 anyone with the link
 
-    sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) VALUES (:user_id, :name, :cells, :instructions, :display)"
-    db.session.execute(sql, {"user_id":session["user_id"], "name":name, "cells":cells, "instructions":instructions, "display":display})
+    sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) " \
+          "VALUES (:user_id, :name, :cells, :instructions, :display)"
+    db.session.execute(sql, {"user_id":session["user_id"], "name":name, \
+               "cells":cells, "instructions":instructions, "display":display})
     db.session.commit()
 
     result = db.session.execute("SELECT COUNT(*) FROM sudokus")
@@ -81,7 +88,8 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    sql = "SELECT id, password_hash, display_name FROM users WHERE username=:username"
+    sql = "SELECT id, password_hash, display_name FROM users " \
+          "WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
 
@@ -117,8 +125,10 @@ def signup():
         print("TODO");
         # TODO - Passwords do not match
     else:
-        sql = "INSERT INTO users (username, password_hash, display_name, permission_level) VALUES (:username,:password_hash,:display_name,0)"
-        db.session.execute(sql, {"username":username, "password_hash":password_hash, "display_name":display})
+        sql = "INSERT INTO users (username, password_hash, display_name, permission_level) " \
+              "VALUES (:username,:password_hash,:display_name,0)"
+        db.session.execute(sql, {"username":username, \
+                   "password_hash":password_hash, "display_name":display})
         db.session.commit()
 
         sql = "SELECT id, display_name FROM users WHERE username=:username"
