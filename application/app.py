@@ -131,7 +131,7 @@ def signup():
     # Check if the username is already taken
     sql ="SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
-    if (result.fetchone() != "None"):
+    if (result.fetchone() != None):
         return render_template("error.html", \
                error="An account with given username already exits.")
 
