@@ -41,9 +41,7 @@ def sudoku(id):
 def sudokus():
     sudokus = db.get_sudokus();
 
-    print(sudokus)
-
-    return render_template("error.html", error="WIP");
+    return render_template("sudokus.html", sudokus=sudokus);
 
 @app.route("/create")
 def create():
