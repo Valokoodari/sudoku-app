@@ -4,7 +4,11 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 
 [Heroku](http://valokoodari-sudoku-app.herokuapp.com/)
 
-### Ominaisuudet:
+### Testitunnukset:
+> username: tester  
+> password: ANuh6p9h74DCZGygSKLdxMWV
+
+## Ominaisuudet:
 - [x] Käyttäjätunnuksen luominen
 - [x] Kirjautuminen olemassa olevalle tunnukselle
 - [x] Uuden sudokun luominen (sudoku ja mahdolliset lisäohjeet)
