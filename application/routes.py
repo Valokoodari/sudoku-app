@@ -41,7 +41,11 @@ def sudoku(id):
 def sudokus():
     sudokus = db.get_sudokus();
 
-    return render_template("sudokus.html", sudokus=sudokus);
+    user_sudokus = None
+    if "user_id" in session:
+        user_sudokus = db.get_user_sudokus(session["user_id"]);
+
+    return render_template("sudokus.html", sudokus=sudokus, user_sudokus=user_sudokus);
 
 @app.route("/create")
 def create():

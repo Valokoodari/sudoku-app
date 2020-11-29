@@ -1,8 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content">
-    {% for sudoku in sudokus %}
-    <a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b> - {{ sudoku[2] }}</a><br>
-    {% endfor %}
+    <h2>Public sudokus:</h2>
+    {% if not sudokus %}
+    <p>No public sudokus found</p>
+    {% else %}
+    <ul>
+        {% for sudoku in sudokus %}
+        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b> - {{ sudoku[2] }}</a><br></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if session.user_id %}
+    <h2>Your sudokus:</h2>
+    {% if not user_sudokus %}
+    <p>You haven't created any sudokus</p>
+    {% endif %}
+    <ul>
+        {% for sudoku in user_sudokus %}
+        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b> - {{ sudoku[2] }}</a><br></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 {% endblock %}

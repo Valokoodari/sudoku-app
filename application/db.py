@@ -20,6 +20,13 @@ def get_sudokus():
     result = db.session.execute(sql);
     return result.fetchall();
 
+def get_user_sudokus(user_id):
+    sql = "SELECT sudokus.id,sudokus.name,users.display_name FROM sudokus,users " \
+          "WHERE sudokus.owner_id = users.id AND sudokus.owner_id=:user_id"
+    
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchall();
+
 def add_sudoku(user_id, name, cells, instructions, display):
     sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) " \
           "VALUES (:user_id, :name, :cells, :instructions, :display)"
