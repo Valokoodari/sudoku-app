@@ -7,7 +7,7 @@
     {% else %}
     <ul>
         {% for sudoku in sudokus %}
-        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b> - {{ sudoku[2] }}</a><br></li>
+        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b></a> by {{ sudoku[2] }}<br></li>
         {% endfor %}
     </ul>
     {% endif %}
@@ -18,7 +18,7 @@
     {% endif %}
     <ul>
         {% for sudoku in user_sudokus %}
-        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b> - {{ sudoku[2] }}</a><br></li>
+        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b></a><br></li>
         {% endfor %}
     </ul>
     {% endif %}
