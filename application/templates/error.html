@@ -1,6 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% if error %}
 <div class="content">
     <p style="color: red">{{ error }}</p>
 </div>
-{% endblock %}
+{% endif %}

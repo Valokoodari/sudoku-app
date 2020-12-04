@@ -6,7 +6,7 @@
         <h1>Sudoku creator</h1>
         <form action="/new" method="POST">
             <p>Sudoku name:<br>
-            <input type="text" maxlength="32" name="name"></p>
+            <input type="text" minlength="3" maxlength="48" name="name"></p>
             {% for row in range(0, 9) %}
                 {% for col in range(0, 9) %}
                     <input type="text" maxlength="1" name="cell{{ row }}{{ col }}" style="width: 15px" onkeypress="return event.charCode >= 48 && event.charCode <= 57">

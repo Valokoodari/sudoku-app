@@ -9,7 +9,7 @@ app.secret_key = getenv("SECRET_KEY")
 db = SQLAlchemy(app)
 
 def get_sudoku(id):
-    sql = "SELECT name,cells,instructions,display,owner_id,user_ids " \
+    sql = "SELECT name,cells,instructions,display,owner_id " \
           "FROM sudokus WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone();
@@ -26,6 +26,11 @@ def get_user_sudokus(user_id):
     
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall();
+
+def get_sudoku_shares(sudoku_id):
+    sql = "SELECT user_id FROM shares WHERE sudoku_id=:sudoku_id"
+    result = db.session.execute(sql, {"sudoku_id":sudoku_id})
+    return list(s[0] for s in result.fetchall());
 
 def add_sudoku(user_id, name, cells, instructions, display):
     sql = "INSERT INTO sudokus (owner_id, name, cells, instructions, display) " \
@@ -47,9 +52,18 @@ def get_user(username):
     result = db.session.execute(sql, {"username":username})
     return result.fetchone()
 
+def is_username_taken(username):
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    return result.fetchone() != None
+
 def create_user(username, password_hash, display_name):
     sql = "INSERT INTO users (username, password_hash, display_name, permission_level) " \
           "VALUES (:username,:password_hash,:display_name,0)"
-    db.session.execute(sql, {"username":username, \
+    try:
+        db.session.execute(sql, {"username":username, \
                "password_hash":password_hash, "display_name":display_name})
-    db.session.commit()
+        db.session.commit()
+        return True
+    except:
+        return False

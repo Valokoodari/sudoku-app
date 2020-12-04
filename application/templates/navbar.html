@@ -31,13 +31,13 @@
         <div id="signupDropdown">
             <form action="/signup" method="POST">
                 <p>Display name:<br>
-                <input type="text" name="display"></p>
+                <input type="text" name="display" minlength="3" maxlength="48"></p>
                 <p>Username:<br>
-                <input type="text" name="username"></p>
+                <input type="text" name="username" minlength="3" maxlength="16"></p>
                 <p>Password:<br>
-                <input type="password" name="password"></p>
+                <input type="password" name="password" minlength="8"></p>
                 <p>Confirm password:<br>
-                <input type="password" name="confirm"></p>
+                <input type="password" name="confirm" minlength="8"></p>
                 <input type="submit" value="Create account">
             </form>
         </div>

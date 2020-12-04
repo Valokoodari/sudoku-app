@@ -2,7 +2,10 @@ from app import app
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import re
 import db
+import errors
+import validation as iv
 
 @app.route("/")
 def index():
@@ -10,17 +13,17 @@ def index():
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
-    sudoku = db.get_sudoku(id);
+    sudoku = db.get_sudoku(id)
 
     # Redirect to the error page if the sudoku doesn't exist
     if sudoku == None:
-        return render_template("error.html", \
+        return render_template("sudokus.html", \
                error="A sudoku with the given id doesn't exits.")
     
     # Check the permissions
     display = sudoku[3]
     owner_id = sudoku[4]
-    shared_to = sudoku[5]
+    shared_to = db.get_sudoku_shares(id)
     if (shared_to == None):
         shared_to = []
 
@@ -34,7 +37,7 @@ def sudoku(id):
                    cells=sudoku[1], rules=sudoku[2])
 
     # The user doesn't have the permission to view the sudoku
-    return render_template("error.html", \
+    return render_template("sudokus.html", \
            error="You don't have the permissions to view that sudoku!")
 
 @app.route("/sudokus")
@@ -47,19 +50,14 @@ def sudokus():
 
     return render_template("sudokus.html", sudokus=sudokus, user_sudokus=user_sudokus);
 
-@app.route("/create")
-def create():
-    # The user must be logged in to create a sudoku
-    if "user_id" not in session:
-        return render_template("error.html", error="You must be logged in!");
-
-    return render_template("create.html")
-
-@app.route("/new", methods=["POST"])
+@app.route("/new", methods=["GET", "POST"])
 def new():
     # The user must be logged in to submit a new sudoku
     if "user_id" not in session:
-        return render_template("error.html", error="You must be logged in!");
+        return render_template("index.html", error="You must be logged in!");
+    
+    if request.method == "GET":
+        return render_template("create.html")
 
     name = request.form["name"]
     cells = [];
@@ -77,7 +75,7 @@ def new():
     id = db.add_sudoku(session["user_id"], name, cells, instructions, display)
 
     if (id < 0):
-        return render_template("error.html", error="Sudoku could not be saved.")
+        return render_template("create.html", error="Sudoku could not be saved.")
 
     return redirect("/sudoku/" + str(id))
     # TODO - error handling
@@ -90,16 +88,16 @@ def login():
     user = db.get_user(username);
 
     if (user == None):
-        return render_template("error.html", \
-               error="Invalid username or password!")
+        return render_template("index.html", \
+               error=errors.get_msg("login_incorrect"))
     else:
         password_hash = user[1]
         if check_password_hash(password_hash, password):
             session["user_id"] = user[0]
             session["display_name"] = user[2]
         else:
-            return render_template("error.html", \
-                   error="Invalid username or password!")
+            return render_template("index.html", \
+                   error=errors.get_msg("login_incorrect"))
 
     return redirect("/")
 
@@ -117,17 +115,10 @@ def signup():
     confirm = request.form["confirm"]
     password_hash = generate_password_hash(password)
 
-    # Check if the passwords do not match
-    if (password != confirm):
-        return render_template("error.html", error="The passwords do not match!")
+    error = iv.check_signup(display, username, password, confirm)
+    if error:
+        return render_template("index.html", error=error)
 
-    # Check if the username is already taken
-    user = db.get_user(username)
-    if (user != None):
-        return render_template("error.html", \
-               error="An account with given username already exits.")
-
-    # Create the new account
     db.create_user(username, password_hash, display)
 
     user = db.get_user(username)
