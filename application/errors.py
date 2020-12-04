@@ -5,7 +5,8 @@ messages = {
     "login_incorrect": "Incorrect username or password.",
     "display_name_invalid": "The display name must be 3-48 characters long and can only contain characters a-z, A-Z, 0-9, and spaces.",
     "sudoku_name_invalid": "The sudoku name must be 3-48 characters long and can only contain characters a-z, A-Z, 0-9, and spaces.",
-    "password_confirmation": "The password and the password confirmation do not match."
+    "password_confirmation": "The password and the password confirmation do not match.",
+    "password_invalid": "The password must be at least 8 characters long and it must contain at least one number 0-9 and at least one letter a-z or A-Z."
 }
 
 def get_msg(error):

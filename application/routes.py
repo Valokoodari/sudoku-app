@@ -116,8 +116,7 @@ def signup():
     password_hash = generate_password_hash(password)
 
     error = iv.check_signup(display, username, password, confirm)
-    if error:
-        return render_template("index.html", error=error)
+    if error: return render_template("index.html", error=error)
 
     db.create_user(username, password_hash, display)
 
