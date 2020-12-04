@@ -57,6 +57,9 @@ def new():
         return render_template("create.html")
 
     name = request.form["name"]
+    if not iv.check_sudoku_name(name):
+        return render_template("create.html", error=errors.get_msg("sudoku_name_invalid"))
+
     cells = [];
     for row in range(0, 9):
         cells.append([]);
