@@ -64,6 +64,6 @@ def create_user(username, password_hash, display_name):
         db.session.execute(sql, {"username":username, \
                "password_hash":password_hash, "display_name":display_name})
         db.session.commit()
-        return True
+        return get_user(username)
     except:
-        return False
+        return None
