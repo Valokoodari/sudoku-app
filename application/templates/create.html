@@ -15,7 +15,11 @@
             {% endfor %}
             <p>Instructions:<br>
             <textarea name="instructions" rows="4" cols="43"></textarea></p>
-            <p><input name="public" type="checkbox">Public</p>
+            <select name="display">
+                <option value="private">Private</option>
+                <option value="link">Anyone with the link</option>
+                <option value="public">Public</option>
+            </select>
             <input type="submit" value="Submit">
         </form>
     </div>

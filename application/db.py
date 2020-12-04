@@ -14,9 +14,9 @@ def get_sudoku(id):
     result = db.session.execute(sql, {"id":id})
     return result.fetchone();
 
-def get_sudokus():
+def get_public_sudokus():
     sql = "SELECT sudokus.id,sudokus.name,users.display_name FROM sudokus,users " \
-          "WHERE sudokus.display=3 AND sudokus.owner_id = users.id"
+          "WHERE sudokus.display='public' AND sudokus.owner_id = users.id"
     result = db.session.execute(sql);
     return result.fetchall();
 

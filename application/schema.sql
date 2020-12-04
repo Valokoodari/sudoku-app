@@ -12,7 +12,7 @@ CREATE TABLE sudokus (
     name TEXT,
     cells TEXT[9][9],
     instructions TEXT,
-    display INTEGER
+    display TEXT
 );
 
 CREATE TABLE shares (

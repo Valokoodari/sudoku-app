@@ -15,10 +15,7 @@ def index():
 def sudoku(id):
     sudoku = db.get_sudoku(id)
 
-    # Redirect to the error page if the sudoku doesn't exist
-    if sudoku == None:
-        return render_template("sudokus.html", \
-               error="A sudoku with the given id doesn't exits.")
+    if sudoku == None: return render_template("sudokus.html", error=errors.get_msg("sudoku_id_not_found"))
     
     # Check the permissions
     display = sudoku[3]
@@ -27,10 +24,10 @@ def sudoku(id):
     if (shared_to == None):
         shared_to = []
 
-    if display == 3 or display == 2: # Public sudoku, display to anyone
+    if display == "public" or display == "link":
         return render_template("sudoku.html", name=sudoku[0], \
                cells=sudoku[1], rules=sudoku[2])
-    elif display == 1 and "user_id" in session:
+    elif display == "private" and "user_id" in session:
         user_id = session["user_id"]
         if user_id == owner_id or user_id in shared_to:
             return render_template("sudoku.html", name=sudoku[0], \
@@ -42,7 +39,7 @@ def sudoku(id):
 
 @app.route("/sudokus")
 def sudokus():
-    sudokus = db.get_sudokus();
+    sudokus = db.get_public_sudokus();
 
     user_sudokus = None
     if "user_id" in session:
@@ -66,11 +63,7 @@ def new():
         for col in range(0, 9):
             cells[row].append(request.form["cell"+str(row)+str(col)])
     instructions = request.form["instructions"]
-    if ("public" in request.form):
-        display = 3 # public
-    else:
-        display = 1 # private
-    # 0 "deleted", 2 anyone with the link
+    display = request.form["display"]
 
     id = db.add_sudoku(session["user_id"], name, cells, instructions, display)
 
