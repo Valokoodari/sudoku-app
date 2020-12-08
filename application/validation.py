@@ -2,17 +2,17 @@ import re
 import db
 
 def check_username(username):
-    return re.match("^[0-9a-zA-Z]{3,16}$", username)
+    return re.fullmatch("^[0-9a-zA-Z]{3,16}$", username)
 
 def check_display_name(display_name):
-    return re.match("^[0-9a-zA-Z ]{3,48}$", display_name)
+    return re.fullmatch("^[0-9a-zA-Z ]{3,48}$", display_name)
 
 def check_password(password):
     if 8 > len(password): return False
-    return re.match("^.*([0-9][a-zA-Z]|[a-zA-Z][0-9]).*$", password)
+    return re.fullmatch("^.*([0-9][a-zA-Z]|[a-zA-Z][0-9]).*$", password)
 
 def check_sudoku_name(sudoku_name):
-    return re.match("^[0-9a-zA-Z -]{3,48}$", sudoku_name)
+    return re.fullmatch("^[0-9a-zA-Z -]{3,48}$", sudoku_name)
 
 def check_signup(display_name, username, password, password_confirm):
     if not check_display_name(display_name): return "display_name_invalid"
