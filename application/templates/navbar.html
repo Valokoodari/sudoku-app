@@ -48,6 +48,11 @@
     var toggleDropdown = (name) => {
         let dropdown = document.getElementById(name + "Dropdown");
         let button = document.getElementById(name + "Button");
+        let otherd = document.getElementById((name!=="login" ? "login":"signup") + "Dropdown")
+        let otherb = document.getElementById((name!=="login" ? "login":"signup") + "Button")
+
+        otherd.style.visibility = "hidden";
+        otherb.style.backgroundColor = "#343434";
 
         if (dropdown.style.visibility != "visible") {
             dropdown.style.visibility = "visible";
