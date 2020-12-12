@@ -51,6 +51,11 @@ def share_sudoku(sudoku_id, user_id):
     db.session.execute(sql, {"sudoku_id":sudoku_id, "user_id":user_id})
     db.session.commit()
 
+def set_sudoku_display(sudoku_id, display):
+    sql = "UPDATE sudokus SET display=:display WHERE id=:id"
+    db.session.execute(sql, {"id":sudoku_id, "display":display})
+    db.session.commit()
+
 def delete_sudoku(sudoku_id):
     sql = "DELETE FROM sudokus WHERE id=:id"
     db.session.execute(sql, {"id":sudoku_id})
