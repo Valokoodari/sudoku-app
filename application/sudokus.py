@@ -2,7 +2,7 @@ from app import app
 from errors import get_msg
 from validation import check_sudoku_name
 from flask import redirect, render_template, request, session
-from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, add_sudoku
+from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, add_sudoku, delete_sudoku
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
@@ -16,14 +16,17 @@ def sudoku(id):
     if (shared_to == None):
         shared_to = []
 
+    send = False
     if display == "public" or display == "link":
-        return render_template("sudoku.html", name=sudoku[0], \
-               cells=sudoku[1], rules=sudoku[2])
+        send = True
     elif display == "private" and "user_id" in session:
         user_id = session["user_id"]
         if user_id == owner_id or user_id in shared_to:
-            return render_template("sudoku.html", name=sudoku[0], \
-                   cells=sudoku[1], rules=sudoku[2])
+            send = True
+
+    if send:
+        return render_template("sudoku.html", name=sudoku[0], id=id, \
+                   cells=sudoku[1], rules=sudoku[2], owner_id=owner_id)
 
     return render_template("sudokus.html", error=get_msg("sudoku_no_permission"))
 
@@ -39,9 +42,8 @@ def sudokus():
 
 @app.route("/new", methods=["GET", "POST"])
 def new():
-    # The user must be logged in to submit a new sudoku
     if "user_id" not in session:
-        return render_template("index.html", error="You must be logged in!")
+        return render_template("index.html", error="You must be logged in to create sudokus!")
     
     if request.method == "GET":
         return render_template("create.html")
@@ -64,3 +66,14 @@ def new():
         return render_template("create.html", error=get_msg("sudoku_db_error"))
 
     return redirect("/sudoku/" + str(id))
+
+@app.route("/edit", methods=["POST"])
+def edit():
+    edit_type = request.form["action"]
+    sudoku_id = request.form["sudoku_id"]
+
+    print(edit_type)
+    if edit_type == "delete":
+        delete_sudoku(sudoku_id)
+
+    return redirect("/")

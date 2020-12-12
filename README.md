@@ -15,10 +15,13 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 - [ ] Sudokun jakaminen toiselle käyttäjälle
 - [ ] Sudokun merkitseminen julkiseksi jälkikäteen
 - [x] Sudokun jakaminen linkillä
-- [ ] Sudokun ratkaiseminen
-- [ ] Sudokun ratkaisemiseen kuluneen ajan tallentaminen
-- [ ] Tallennettujen aikojen tarkasteleminen yksittäisen sudokun osalta
 - [ ] Sudokun arvostelu asteikolla 1-5 (mahdollisesti myös teksti?)
-- [ ] Mahdollisesti erikoismerkintöjä (lämpömittarit, nuolet, häkit)?
-- [ ] Ratkaistun sudokun tarkistaminen
-- [ ] Vapaaehtoinen automaattinen selkeiden virheiden tarkistaminen
+- [x] Sudokun voi poistaa
+
+### Tulevaisuuden lisäyksiä
+- Sudokun ratkaiseminen selaimessa
+- Selaimessa ratkaistun sudokun tarkistaminen
+- Sudokun ratkaisemiseen kuluneen ajan tallentaminen
+- Vapaaehtoinen automaattinen selkeiden virheiden tarkistaminen
+- Tallennettujen aikojen tarkasteleminen yksittäisen sudokun osalta
+- Erikoismerkintöjä sudokuun (lämpömittarit, nuolet, häkit)

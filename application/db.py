@@ -46,6 +46,11 @@ def add_sudoku(user_id, name, cells, instructions, display):
 
     return result.fetchone()[0]
 
+def delete_sudoku(sudoku_id):
+    sql = "DELETE FROM sudokus WHERE id=:id"
+    db.session.execute(sql, {"id":sudoku_id})
+    db.session.commit()
+
 def get_user(username):
     sql = "SELECT id, password_hash, display_name FROM users " \
           "WHERE username=:username"
