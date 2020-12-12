@@ -19,3 +19,11 @@ CREATE TABLE shares (
     sudoku_id INTEGER REFERENCES sudokus,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    uesr_id INTEGER REFERENCES users,
+    sudoku_id INTEGER REFERENCES sudokus,
+    rating INTEGER,
+    content TEXT
+);
