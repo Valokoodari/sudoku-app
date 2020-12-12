@@ -31,9 +31,9 @@
         <div id="signupDropdown">
             <form action="/signup" method="POST">
                 <p>Display name:<br>
-                <input type="text" name="display" minlength="3" maxlength="48"></p>
+                <input type="text" name="display" pattern="[0-9a-zA-Z ]{3,48}" autofocus required title="Please only use characters a-z, A-Z, 0-9, and spaces. The display name must also be 3-48 characters long."></p>
                 <p>Username:<br>
-                <input type="text" name="username" minlength="3" maxlength="16"></p>
+                <input type="text" name="username" pattern="[0-9a-zA-Z]{3,16}" autofocus required title="Please only use characters a-z, A-Z, and 0-9. The username must also be 3-16 characters long."></p>
                 <p>Password:<br>
                 <input type="password" name="password" minlength="8"></p>
                 <p>Confirm password:<br>
