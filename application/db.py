@@ -46,6 +46,11 @@ def add_sudoku(user_id, name, cells, instructions, display):
 
     return result.fetchone()[0]
 
+def share_sudoku(sudoku_id, user_id):
+    sql = "INSERT INTO shares (sudoku_id, user_id) VALUES (:sudoku_id, :user_id)"
+    db.session.execute(sql, {"sudoku_id":sudoku_id, "user_id":user_id})
+    db.session.commit()
+
 def delete_sudoku(sudoku_id):
     sql = "DELETE FROM sudokus WHERE id=:id"
     db.session.execute(sql, {"id":sudoku_id})

@@ -2,7 +2,7 @@ from app import app
 from errors import get_msg
 from validation import check_sudoku_name
 from flask import redirect, render_template, request, session
-from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, add_sudoku, delete_sudoku
+from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, add_sudoku, delete_sudoku, get_user, share_sudoku
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
@@ -72,8 +72,22 @@ def edit():
     edit_type = request.form["action"]
     sudoku_id = request.form["sudoku_id"]
 
+    sudoku = get_sudoku(sudoku_id)
+
+    if not "user_id" in session:
+        return redirect("/sudoku/" + sudoku_id)
+    if sudoku[4] != session["user_id"]:
+        return redirect("/sudoku/" + sudoku_id)
+
     print(edit_type)
     if edit_type == "delete":
         delete_sudoku(sudoku_id)
+        return redirect("/")
+    if edit_type == "share":
+        username = request.form["username"]
+        user = get_user(username)
+        if user:
+            share_sudoku(sudoku_id, user[0])
+        return redirect("/sudoku/" + sudoku_id)
 
     return redirect("/")
