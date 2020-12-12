@@ -17,5 +17,11 @@
     <div class="rules">
         <p>{{ rules }}</p>
     </div>
+    {% if session.user_id and not session.user_id == owner_id %}
+        {% include "comment.html" %}
+    {% endif %}
+    {% if session.user_id == owner_id %}
+        {% include "edit_sudoku.html" %}
+    {% endif %}
 </div>
 {% endblock %}
