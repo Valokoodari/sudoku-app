@@ -1,0 +1,24 @@
+<div id="sudoku-editor">
+    <h3>Edit sudoku details</h3>
+    <form action="/edit" methoD="POST">
+        <select name="display">
+            <option value="private">Private</option>
+            <option value="link">Anyone with the link</option>
+            <option value="public">Public</option>
+        </select>
+        <input name="sudoku_id" type="hidden" value={{ id }}>
+        <input name="action" type="hidden" value="display">
+        <input type="submit" value="Update">
+    </form>
+    <form action="/edit" methoD="POST">
+        <input type="text" name="username" placeholder="username">
+        <input name="sudoku_id" type="hidden" value={{ id }}>
+        <input name="action" type="hidden" value="share">
+        <input type="submit" value="Share">
+    </form>
+    <form action="/edit" methoD="POST" onsubmit="return confirm('Are you sure that you want to delete this sudoku?')">
+        <input name="sudoku_id" type="hidden" value={{ id }}>
+        <input name="action" type="hidden" value="delete">
+        <input type="submit" value="Delete the sudoku">
+    </form>
+</div>
