@@ -5,7 +5,7 @@
         <h1>Sudoku creator</h1>
         <form action="/new" method="POST">
             <p>Sudoku name:<br>
-            <input type="text" minlength="3" maxlength="48" name="name"></p>
+            <input type="text" minlength="3" maxlength="48" name="name" placeholder="Cool sudoku"></p>
             {% for row in range(0, 9) %}
                 {% for col in range(0, 9) %}
                     <input type="text" maxlength="1" name="cell{{ row }}{{ col }}" style="width: 15px" onkeypress="return event.charCode >= 49 && event.charCode <= 57">
@@ -13,7 +13,7 @@
                 <br>
             {% endfor %}
             <p>Instructions:<br>
-            <textarea name="instructions" rows="4" cols="43"></textarea></p>
+            <textarea name="instructions" rows="4" cols="43" placeholder="Normal sudoku rules apply."></textarea></p>
             <select name="display">
                 <option value="private">Private</option>
                 <option value="link">Anyone with the link</option>
