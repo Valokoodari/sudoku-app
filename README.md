@@ -28,3 +28,6 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 - Vapaaehtoinen automaattinen selkeiden virheiden tarkistaminen
 - Tallennettujen aikojen tarkasteleminen yksittäisen sudokun osalta
 - Erikoismerkintöjä sudokuun (lämpömittarit, nuolet, häkit)
+
+### Huomioita
+- Sudokun muokkaamisessa ja poistamisessa ei toistaiseksi ilmoituksia onnistumisesta eikä epäonnistumisesta
