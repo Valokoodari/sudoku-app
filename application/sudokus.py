@@ -82,7 +82,7 @@ def edit():
 
     if edit_type == "delete":
         delete_sudoku(sudoku_id)
-        return redirect("/")
+        return redirect("/sudokus")
 
     if edit_type == "share":
         username = request.form["username"]
