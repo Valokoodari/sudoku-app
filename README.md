@@ -8,6 +8,9 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 > username: tester  
 > password: ANuh6p9h74DCZGygSKLdxMWV
 
+> username: tester2
+> password: P4ssw0rd
+
 ## Ominaisuudet:
 - [x] Käyttäjätunnuksen luominen
 - [x] Kirjautuminen olemassa olevalle tunnukselle
