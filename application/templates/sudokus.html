@@ -12,6 +12,15 @@
     </ul>
     {% endif %}
     {% if session.user_id %}
+    <h2>Sudokus shared to you</h2>
+    {% if not shared_sudokus %}
+    <p>There are no sudokus shared to you.</p>
+    {% endif %}
+    <ul>
+        {% for sudoku in shared_sudokus %}
+        <li><a href="/sudoku/{{ sudoku[0] }}"><b>{{ sudoku[1] }}</b></a> by {{ sudoku[2] }}<br></li>
+        {% endfor %}
+    </ul>
     <h2>Your sudokus:</h2>
     {% if not user_sudokus %}
     <p>You haven't created any sudokus</p>

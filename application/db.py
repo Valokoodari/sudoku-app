@@ -25,7 +25,17 @@ def get_user_sudokus(user_id):
           "WHERE sudokus.owner_id = users.id AND sudokus.owner_id=:user_id"
     
     result = db.session.execute(sql, {"user_id":user_id})
-    return result.fetchall();
+    return result.fetchall()
+
+def get_shared_sudokus(user_id):
+    sql = "SELECT sudokus.id, sudokus.name, users.display_name " \
+          "FROM sudokus, users, shares " \
+          "WHERE shares.user_id = :user_id " \
+          "AND sudokus.id = shares.sudoku_id " \
+          "AND sudokus.owner_id = users.id"
+    
+    result = db.session.execute(sql, { "user_id":user_id })
+    return result.fetchall()
 
 def get_sudoku_shares(sudoku_id):
     sql = "SELECT user_id FROM shares WHERE sudoku_id=:sudoku_id"

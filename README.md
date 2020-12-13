@@ -19,7 +19,7 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 - [x] Sudokun voi poistaa
 - [x] Julkiset sudokut näkyvät listassa kaikille
 - [x] Käyttäjä näkee omat sudokunsa listassa
-- [ ] Käyttäjä näkee muiden jakamat sudokut listassa
+- [x] Käyttäjä näkee muiden jakamat sudokut listassa
 
 ### Tulevaisuuden lisäyksiä
 - Sudokun ratkaiseminen selaimessa

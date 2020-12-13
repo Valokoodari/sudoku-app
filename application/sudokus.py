@@ -4,7 +4,7 @@ from validation import check_sudoku_name
 from flask import redirect, render_template, request, session
 from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, \
                add_sudoku, delete_sudoku, get_user, share_sudoku, set_sudoku_display, \
-               get_comments_by_sudoku
+               get_comments_by_sudoku, get_shared_sudokus
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
@@ -37,13 +37,15 @@ def sudoku(id):
 
 @app.route("/sudokus")
 def sudokus():
-    sudokus = get_public_sudokus();
+    sudokus = get_public_sudokus()
 
     user_sudokus = None
+    shared_sudokus = None
     if "user_id" in session:
-        user_sudokus = get_user_sudokus(session["user_id"]);
+        user_sudokus = get_user_sudokus(session["user_id"])
+        shared_sudokus = get_shared_sudokus(session["user_id"])
 
-    return render_template("sudokus.html", sudokus=sudokus, user_sudokus=user_sudokus);
+    return render_template("sudokus.html", sudokus=sudokus, shared_sudokus=shared_sudokus, user_sudokus=user_sudokus);
 
 @app.route("/sudoku/new", methods=["GET", "POST"])
 def new_sudoku():
