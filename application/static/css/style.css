@@ -5,3 +5,10 @@ html {
 .content {
     margin-top: 60px;
 }
+
+.comment {
+    border: 1px solid black;
+    width: 460px;
+    padding: 0px 10px 0px;
+    margin: 10px;
+}

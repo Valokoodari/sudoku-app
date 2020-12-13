@@ -30,8 +30,7 @@
         <div id="comments">
         {% for comment in comments %}
             <div class="comment">
-                <p>{{ comment[0] }}</p>
-                <p>{{ comment[1] }}</p>
+                <p>Comment by <b>{{ comment[0] }}</b>, rating: {{ comment[1] }}</p>
                 <p>{{ comment[2] }}</p>
             </div>
         {% endfor %}
