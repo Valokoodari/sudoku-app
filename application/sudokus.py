@@ -2,9 +2,8 @@ from app import app
 from errors import get_msg
 from validation import check_sudoku_name
 from flask import redirect, render_template, request, session
-from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, \
-               add_sudoku, delete_sudoku, get_user, share_sudoku, set_sudoku_display, \
-               get_comments_by_sudoku, get_shared_sudokus
+
+import db
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
@@ -12,14 +11,14 @@ def sudoku(id):
     if "err" in request.args:
         error_msg = get_msg(request.args["err"])
 
-    sudoku = get_sudoku(id)
+    sudoku = db.get_sudoku(id)
 
     if sudoku == None:
         return redirect("/sudokus?err=sudoku_id_not_found")
     
     display = sudoku[3]
     owner_id = sudoku[4]
-    shared_to = get_sudoku_shares(id)
+    shared_to = db.get_sudoku_shares(id)
     if (shared_to == None):
         shared_to = []
 
@@ -31,7 +30,7 @@ def sudoku(id):
         if user_id == owner_id or user_id in shared_to:
             send = True
 
-    comments = get_comments_by_sudoku(id)
+    comments = db.get_comments_by_sudoku(id)
 
     if send:
         return render_template("sudoku.html", name=sudoku[0], id=id, \
@@ -46,13 +45,13 @@ def sudokus():
     if "err" in request.args:
         error_msg = get_msg(request.args["err"])
 
-    sudokus = get_public_sudokus()
+    sudokus = db.get_public_sudokus()
 
     user_sudokus = None
     shared_sudokus = None
     if "user_id" in session:
-        user_sudokus = get_user_sudokus(session["user_id"])
-        shared_sudokus = get_shared_sudokus(session["user_id"])
+        user_sudokus = db.get_user_sudokus(session["user_id"])
+        shared_sudokus = db.get_shared_sudokus(session["user_id"])
 
     return render_template("sudokus.html", sudokus=sudokus,
                     shared_sudokus=shared_sudokus, user_sudokus=user_sudokus,
@@ -88,7 +87,7 @@ def new_sudoku():
     instructions = request.form["instructions"]
     display = request.form["display"]
 
-    id = add_sudoku(session["user_id"], name, cells, instructions, display)
+    id = db.add_sudoku(session["user_id"], name, cells, instructions, display)
 
     if (id < 0):
         redirect("/sudoku/new?err=sudoku_db_error")
@@ -99,7 +98,7 @@ def new_sudoku():
 def edit():
     sudoku_id = request.form["sudoku_id"]
 
-    sudoku = get_sudoku(sudoku_id)
+    sudoku = db.get_sudoku(sudoku_id)
 
     error = None
     if not "user_id" in session:
@@ -120,17 +119,17 @@ def edit():
 
 def do_edit(edit_type, sudoku_id, form):
     if edit_type == "delete":
-        delete_sudoku(sudoku_id)
+        db.delete_sudoku(sudoku_id)
         return "deleted"
 
     if edit_type == "share":
         username = form["username"]
-        user = get_user(username)
+        user = db.get_user(username)
         if user:
-            share_sudoku(sudoku_id, user[0])
+            db.share_sudoku(sudoku_id, user[0])
 
     if edit_type == "display":
         display = form["display"]
-        set_sudoku_display(sudoku_id, display)
+        db.set_sudoku_display(sudoku_id, display)
     
     return None

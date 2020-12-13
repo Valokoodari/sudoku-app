@@ -1,7 +1,8 @@
 from app import app
 from errors import get_msg
-from db import add_comment
 from flask import redirect, render_template, request, session
+
+import db
 
 @app.route("/comment/new", methods=["POST"])
 def new_comment():
@@ -21,6 +22,6 @@ def new_comment():
     rating = request.form["rating"]
     content = request.form["comment"]
 
-    add_comment(user_id, sudoku_id, rating, content)
+    db.add_comment(user_id, sudoku_id, rating, content)
 
     return redirect("/sudoku/" + sudoku_id)

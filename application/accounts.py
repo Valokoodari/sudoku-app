@@ -2,16 +2,17 @@ import os
 from app import app
 from errors import get_msg
 from validation import check_signup
-from db import create_user, get_user
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+
+import db
 
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    user = get_user(username);
+    user = db.get_user(username);
 
     if user != None:
         password_hash = user[1]
@@ -37,7 +38,7 @@ def signup():
     error = check_signup(display, username, password, confirm)
     if error: return redirect("index.html?err=" + error)
 
-    user = create_user(username, password_hash, display)
+    user = db.create_user(username, password_hash, display)
 
     if user:
         set_session_details(user)
