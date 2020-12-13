@@ -13,16 +13,13 @@ def login():
 
     user = get_user(username);
 
-    if (user == None):
-        redirect("/?err=login_incorrect")
-    else:
+    if user != None:
         password_hash = user[1]
         if check_password_hash(password_hash, password):
             set_session_details(user)
-        else:
-            return redirect("/?err=login_incorrect")
-
-    return redirect("/")
+            return redirect("/")
+    
+    return redirect("/?err=login_incorrect")
 
 @app.route("/logout")
 def logout():
@@ -45,8 +42,8 @@ def signup():
     if user:
         set_session_details(user)
         return redirect("/")
-    else:
-        return redirect("/?err=signup_db_error")
+    
+    return redirect("/?err=signup_db_error")
 
 def set_session_details(user):
     session["user_id"] = user[0]
