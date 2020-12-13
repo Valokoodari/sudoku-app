@@ -82,3 +82,17 @@ def create_user(username, password_hash, display_name):
         return get_user(username)
     except:
         return None
+
+def add_comment(user_id: int, sudoku_id: int, rating: int, content: str) -> bool:
+    sql = "INSERT INTO comments (user_id, sudoku_id, rating, content) " \
+          "VALUES (:user_id, :sudoku_id, :rating, :content)"
+
+    db.session.execute(sql, { "user_id": user_id, "sudoku_id": sudoku_id, \
+                              "rating": rating, "content": content })
+    db.session.commit()
+
+def get_comments_by_sudoku(sudoku_id: int):
+    sql = "SELECT user_id, rating, content FROM comments WHERE sudoku_id=:sudoku_id"
+    db.session.execute(sql, { "sudoku_id": sudoku_id })
+
+    return db.fetchall()

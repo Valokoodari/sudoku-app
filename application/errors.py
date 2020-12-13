@@ -9,7 +9,8 @@ messages = {
     "sudoku_no_permission": "You don't have the permissions to view that sudoku.",
     "sudoku_db_error": "The sudoku couldn't be saved for an unknown reason, please contact @Valokoodari.",
     "password_confirmation": "The password and the password confirmation do not match.",
-    "password_invalid": "The password must be at least 8 characters long and it must contain at least one number 0-9 and at least one letter a-z or A-Z."
+    "password_invalid": "The password must be at least 8 characters long and it must contain at least one number 0-9 and at least one letter a-z or A-Z.",
+    "comment_no_user": "You must be logged in to comment."
 }
 
 def get_msg(error):
