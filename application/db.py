@@ -92,7 +92,11 @@ def add_comment(user_id: int, sudoku_id: int, rating: int, content: str) -> bool
     db.session.commit()
 
 def get_comments_by_sudoku(sudoku_id: int):
-    sql = "SELECT user_id, rating, content FROM comments WHERE sudoku_id=:sudoku_id"
-    db.session.execute(sql, { "sudoku_id": sudoku_id })
+    sql = "SELECT users.display_name, comments.rating, comments.content " \
+          "FROM comments, users " \
+          "WHERE sudoku_id=:sudoku_id " \
+          "AND users.id=comments.user_id"
 
-    return db.fetchall()
+    result = db.session.execute(sql, { "sudoku_id": sudoku_id })
+
+    return result.fetchall()

@@ -3,7 +3,8 @@ from errors import get_msg
 from validation import check_sudoku_name
 from flask import redirect, render_template, request, session
 from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudokus, \
-                add_sudoku, delete_sudoku, get_user, share_sudoku, set_sudoku_display
+               add_sudoku, delete_sudoku, get_user, share_sudoku, set_sudoku_display, \
+               get_comments_by_sudoku
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
@@ -25,9 +26,12 @@ def sudoku(id):
         if user_id == owner_id or user_id in shared_to:
             send = True
 
+    comments = get_comments_by_sudoku(id)
+
     if send:
         return render_template("sudoku.html", name=sudoku[0], id=id, \
-                   cells=sudoku[1], rules=sudoku[2], owner_id=owner_id)
+                   cells=sudoku[1], rules=sudoku[2], owner_id=owner_id, \
+                   comments=comments)
 
     return render_template("sudokus.html", error=get_msg("sudoku_no_permission"))
 

@@ -23,5 +23,19 @@
     {% if session.user_id == owner_id %}
         {% include "edit_sudoku.html" %}
     {% endif %}
+    <h3>Comments:</h3>
+    {% if not comments %}
+        <p>There are no comments yet. Be the first to comment!</p>
+    {% else %}
+        <div id="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment[0] }}</p>
+                <p>{{ comment[1] }}</p>
+                <p>{{ comment[2] }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
