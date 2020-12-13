@@ -15,7 +15,7 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 - [x] Sudokun jakaminen toiselle käyttäjälle käyttäjänimellä
 - [x] Sudokun merkitseminen julkiseksi tai yksityiseksi jälkikäteen
 - [x] Sudokun jakaminen linkillä
-- [ ] Sudokun arvostelu asteikolla 1-5 ja kommentilla
+- [x] Sudokun arvostelu asteikolla 1-5 ja kommentilla
 - [x] Sudokun voi poistaa
 - [x] Julkiset sudokut näkyvät listassa kaikille
 - [x] Käyttäjä näkee omat sudokunsa listassa
