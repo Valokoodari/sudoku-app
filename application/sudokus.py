@@ -41,8 +41,8 @@ def sudokus():
 
     return render_template("sudokus.html", sudokus=sudokus, user_sudokus=user_sudokus);
 
-@app.route("/new", methods=["GET", "POST"])
-def new():
+@app.route("/sudoku/new", methods=["GET", "POST"])
+def new_sudoku():
     if "user_id" not in session:
         return render_template("index.html", error="You must be logged in to create sudokus!")
     

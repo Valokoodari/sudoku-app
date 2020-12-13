@@ -3,7 +3,7 @@
 <div class="content">
     <div id="creator">
         <h1>Sudoku creator</h1>
-        <form action="/new" method="POST">
+        <form action="/sudoku/new" method="POST">
             <p>Sudoku name:<br>
             <input type="text" minlength="3" maxlength="48" name="name" placeholder="Cool sudoku"></p>
             {% for row in range(0, 9) %}
