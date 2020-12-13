@@ -70,6 +70,12 @@ def new_sudoku():
     if request.method == "GET":
         return render_template("create.html", error=error_msg)
 
+    if "csrf_token" not in session or "csrf_token" not in request.form:
+        redirect("/sudoku/new?err=no_csrf_token")
+
+    if session["csrf_token"] != request.form["csrf_token"]:
+        redirect("/sudoku/new?err=invalid_csrf_token")
+
     name = request.form["name"]
     if not check_sudoku_name(name):
         return redirect("/sudoku/new?err=sudoku_name_invalid")
@@ -100,6 +106,12 @@ def edit():
         return redirect("/sudoku/" + sudoku_id + "?err=edit_no_user")
     if sudoku[4] != session["user_id"]:
         return redirect("/sudoku/" + sudoku_id + "?err=edit_wrong_user")
+
+    if "csrf_token" not in session or "csrf_token" not in request.form:
+        redirect("/sudoku/" + sudoku_id + "?err=no_csrf_token")
+
+    if session["csrf_token"] != request.form["csrf_token"]:
+        redirect("/sudoku/" + sudoku_id + "?err=invalid_csrf_token")
 
     if edit_type == "delete":
         delete_sudoku(sudoku_id)

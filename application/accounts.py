@@ -1,3 +1,4 @@
+import os
 from app import app
 from errors import get_msg
 from validation import check_signup
@@ -19,6 +20,7 @@ def login():
         if check_password_hash(password_hash, password):
             session["user_id"] = user[0]
             session["display_name"] = user[2]
+            session["csrf_token"] = os.urandom(16).hex()
         else:
             return redirect("/?err=login_incorrect")
 

@@ -9,6 +9,7 @@
     </select>
     <p>Comment:</p>
     <textarea name="comment" rows="3" cols="62" maxlength="280"></textarea><br>
-    <input name="sudoku_id" type="hidden" value={{ id }}>
     <input type="submit" value="Send">
+    <input type="hidden" name="sudoku_id" value={{ id }}>
+    <input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
 </form>
