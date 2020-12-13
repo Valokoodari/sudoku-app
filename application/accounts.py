@@ -13,14 +13,14 @@ def login():
     user = get_user(username);
 
     if (user == None):
-        return render_template("index.html", error=get_msg("login_incorrect"))
+        redirect("/?err=login_incorrect")
     else:
         password_hash = user[1]
         if check_password_hash(password_hash, password):
             session["user_id"] = user[0]
             session["display_name"] = user[2]
         else:
-            return render_template("index.html", error=get_msg("login_incorrect"))
+            return redirect("/?err=login_incorrect")
 
     return redirect("/")
 
@@ -48,4 +48,4 @@ def signup():
         session["display_name"] = user[2]
         return redirect("/")
     else:
-        return render_template("index.html", error=get_msg("signup_db_error"))
+        return redirect("/?err=signup_db_error")

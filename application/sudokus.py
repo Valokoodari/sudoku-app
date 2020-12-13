@@ -8,9 +8,14 @@ from db import get_sudoku, get_sudoku_shares, get_public_sudokus, get_user_sudok
 
 @app.route("/sudoku/<int:id>")
 def sudoku(id):
+    error_msg = None
+    if "err" in request.args:
+        error_msg = get_msg(request.args["err"])
+
     sudoku = get_sudoku(id)
 
-    if sudoku == None: return render_template("sudokus.html", error=get_msg("sudoku_id_not_found"))
+    if sudoku == None:
+        return redirect("/sudokus?err=sudoku_id_not_found")
     
     display = sudoku[3]
     owner_id = sudoku[4]
@@ -31,12 +36,16 @@ def sudoku(id):
     if send:
         return render_template("sudoku.html", name=sudoku[0], id=id, \
                    cells=sudoku[1], rules=sudoku[2], owner_id=owner_id, \
-                   comments=comments)
+                   comments=comments, error=error_msg)
 
-    return render_template("sudokus.html", error=get_msg("sudoku_no_permission"))
+    return redirect("/sudokus?err=sudoku_no_permission")
 
 @app.route("/sudokus")
 def sudokus():
+    error_msg = None
+    if "err" in request.args:
+        error_msg = get_msg(request.args["err"])
+
     sudokus = get_public_sudokus()
 
     user_sudokus = None
@@ -45,19 +54,25 @@ def sudokus():
         user_sudokus = get_user_sudokus(session["user_id"])
         shared_sudokus = get_shared_sudokus(session["user_id"])
 
-    return render_template("sudokus.html", sudokus=sudokus, shared_sudokus=shared_sudokus, user_sudokus=user_sudokus);
+    return render_template("sudokus.html", sudokus=sudokus,
+                    shared_sudokus=shared_sudokus, user_sudokus=user_sudokus,
+                    error=error_msg);
 
 @app.route("/sudoku/new", methods=["GET", "POST"])
 def new_sudoku():
+    error_msg = None
+    if "err" in request.args:
+        error_msg = get_msg(request.args["err"])
+
     if "user_id" not in session:
-        return render_template("index.html", error="You must be logged in to create sudokus!")
+        return redirect("/?err=create_no_user")
     
     if request.method == "GET":
-        return render_template("create.html")
+        return render_template("create.html", error=error_msg)
 
     name = request.form["name"]
     if not check_sudoku_name(name):
-        return render_template("create.html", error=get_msg("sudoku_name_invalid"))
+        return redirect("/sudoku/new?err=sudoku_name_invalid")
 
     cells = [];
     for row in range(0, 9):
@@ -70,7 +85,7 @@ def new_sudoku():
     id = add_sudoku(session["user_id"], name, cells, instructions, display)
 
     if (id < 0):
-        return render_template("create.html", error=get_msg("sudoku_db_error"))
+        redirect("/sudoku/new?err=sudoku_db_error")
 
     return redirect("/sudoku/" + str(id))
 
@@ -82,9 +97,9 @@ def edit():
     sudoku = get_sudoku(sudoku_id)
 
     if not "user_id" in session:
-        return redirect("/sudoku/" + sudoku_id)
+        return redirect("/sudoku/" + sudoku_id + "?err=edit_no_user")
     if sudoku[4] != session["user_id"]:
-        return redirect("/sudoku/" + sudoku_id)
+        return redirect("/sudoku/" + sudoku_id + "?err=edit_wrong_user")
 
     if edit_type == "delete":
         delete_sudoku(sudoku_id)
