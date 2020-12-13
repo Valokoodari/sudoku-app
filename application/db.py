@@ -79,10 +79,7 @@ def set_sudoku_display(sudoku_id: int, display: str):
     db.session.commit()
 
 def delete_sudoku(sudoku_id: int):
-    sql = "DELETE FROM sudokus WHERE id = :id"
-
-    db.session.execute(sql, { "id": sudoku_id })
-    db.session.commit()
+    set_sudoku_display(sudoku_id, "deleted")
 
 def get_user(username: str) -> list:
     sql = "SELECT id, password_hash, display_name FROM users " \

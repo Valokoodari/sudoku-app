@@ -66,7 +66,7 @@ def new_sudoku():
 
     if "user_id" not in session:
         return redirect("/?err=create_no_user")
-    
+
     if request.method == "GET":
         return render_template("create.html", error=error_msg)
 
@@ -97,34 +97,40 @@ def new_sudoku():
 
 @app.route("/edit", methods=["POST"])
 def edit():
-    edit_type = request.form["action"]
     sudoku_id = request.form["sudoku_id"]
 
     sudoku = get_sudoku(sudoku_id)
 
+    error = None
     if not "user_id" in session:
-        return redirect("/sudoku/" + sudoku_id + "?err=edit_no_user")
-    if sudoku[4] != session["user_id"]:
-        return redirect("/sudoku/" + sudoku_id + "?err=edit_wrong_user")
+        error = "edit_no_user"
+    elif sudoku[4] != session["user_id"]:
+        error = "edit_wrong_user"
+    elif "csrf_token" not in session or "csrf_token" not in request.form:
+        error = "no_csrf_token"
+    elif session["csrf_token"] != request.form["csrf_token"]:
+        error = "invalid_csrf_token"
 
-    if "csrf_token" not in session or "csrf_token" not in request.form:
-        redirect("/sudoku/" + sudoku_id + "?err=no_csrf_token")
+    if error: return redirect("/sudoku/" + sudoku_id + "?err=" + error)
 
-    if session["csrf_token"] != request.form["csrf_token"]:
-        redirect("/sudoku/" + sudoku_id + "?err=invalid_csrf_token")
+    result = do_edit(request.form["action"], sudoku_id, request.form)
+    if result: return redirect("/sudokus")
 
+    return redirect("/sudoku/" + sudoku_id)
+
+def do_edit(edit_type, sudoku_id, form):
     if edit_type == "delete":
         delete_sudoku(sudoku_id)
-        return redirect("/sudokus")
+        return "deleted"
 
     if edit_type == "share":
-        username = request.form["username"]
+        username = form["username"]
         user = get_user(username)
         if user:
             share_sudoku(sudoku_id, user[0])
 
     if edit_type == "display":
-        display = request.form["display"]
+        display = form["display"]
         set_sudoku_display(sudoku_id, display)
-
-    return redirect("/sudoku/" + sudoku_id)
+    
+    return None
