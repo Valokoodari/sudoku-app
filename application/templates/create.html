@@ -5,10 +5,10 @@
         <h1>Sudoku creator</h1>
         <form action="/sudoku/new" method="POST">
             <p>Sudoku name:<br>
-            <input type="text" minlength="3" maxlength="48" name="name" placeholder="Cool sudoku"></p>
+            <input type="text" name="name" placeholder="Cool sudoku" pattern="[0-9a-zA-Z -]{3,48}" autofocus required title="Please only use characters a-z, A-Z, 0-9, spaces and dashes (-)"></p>
             {% for row in range(0, 9) %}
                 {% for col in range(0, 9) %}
-                    <input type="text" maxlength="1" name="cell{{ row }}{{ col }}" style="width: 15px" onkeypress="return event.charCode >= 49 && event.charCode <= 57">
+                    <input type="text" maxlength="1" name="cell{{ row }}{{ col }}" style="width: 15px" pattern="[1-9]" onkeypress="return event.charCode >= 49 && event.charCode <= 57">
                 {% endfor %}
                 <br>
             {% endfor %}
