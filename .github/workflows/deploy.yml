@@ -1,0 +1,19 @@
+name: Deploy Sudoku App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: deploy to dokku
+        uses: dokku/github-action@v1.4.0
+        with:
+          git_remote_url: ssh://dokku@valokoodari.eu:25523/hy-sudoku
+          ssh_private_key: ${{ secrets.DOKKU_PRIVATE_KEY }}
