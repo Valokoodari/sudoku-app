@@ -2,7 +2,10 @@
 
 Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen ja ratkomiseen.
 
-[Heroku](http://valokoodari-sudoku-app.herokuapp.com/)
+> **Warning**
+> Sovellus ei tällä hetkellä toimi täysin oikein liian paljon muuttuneen alustan vuoksi.
+
+[Sudoku App](https://sudoku.valokoodari.eu)
 
 ### Testitunnukset:
 > username: tester  
