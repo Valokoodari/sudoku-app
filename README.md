@@ -1,8 +1,9 @@
 # Sudoku app
 
-Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen ja ratkomiseen.
+Tietokantasovellus-kurssilla vuonna 2020 tehty web-sovellus sudokujen luomiseen, jakamiseen ja
+ratkomiseen.
 
-> **Warning**
+> **Warning**  
 > Sovellus ei tällä hetkellä toimi täysin oikein liian paljon muuttuneen alustan vuoksi.
 
 [Sudoku App](https://sudoku.valokoodari.eu)
@@ -36,4 +37,5 @@ Tietokantasovellus-kurssilla tehty web-sovellus sudokujen luomiseen, jakamiseen 
 - Erikoismerkintöjä sudokuun (lämpömittarit, nuolet, häkit)
 
 ### Huomioita
-- Sudokun muokkaamisessa ja poistamisessa ei toistaiseksi ilmoituksia onnistumisesta eikä epäonnistumisesta
+- Sudokun muokkaamisessa ja poistamisessa ei toistaiseksi ilmoituksia onnistumisesta eikä
+epäonnistumisesta
