@@ -5,4 +5,4 @@ RUN pip3 install -r requirements.txt
 COPY application /app
 WORKDIR /app
 
-CMD gunicorn app:app -b 0.0.0.0:80
+CMD gunicorn app:app -b 0.0.0.0:5000
